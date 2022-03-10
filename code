@@ -1,0 +1,33 @@
+@author: ashwinieghanesh
+"""
+
+import numpy as np
+from scipy import optimize
+import cmath
+from math import pi
+from scipy.sparse.linalg import eigsh
+from scipy.sparse.linalg import eigs
+import matplotlib.pyplot as plt
+from matplotlib import animation
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.animation import PillowWriter
+from scipy import sparse
+
+def fun(x):
+    v=2*10**-3
+    alpha=5*10**-5
+    kappa_0=2.3*10**-3
+    kappa=kappa_0+alpha*0.5 
+    H = np.zeros((2, 2), dtype=complex)
+    H[0, 1] = v+kappa*cmath.exp(-1j*k)
+    H[1, 0] = v+kappa*cmath.exp(1j*k)
+    psi=np.array(([x[0]+1j*x[1]],
+                  [x[2]+1j*x[3]]))
+    omega=2*10**-6
+    omega_0=0  
+    fun=(H-(omega-omega_0))*psi
+    ##take the real part of fun output to reshape
+    return fun.reshape((4,))
+    
+evec=optimize.root(fun,np.array((0.2,0.2,0.3,0.2)),method='hybr')
+print(evec)
